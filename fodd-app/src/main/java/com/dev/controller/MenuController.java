@@ -75,7 +75,7 @@ public class MenuController {
 
         FoodCategory category = selectCategory();
 
-        FoodItem item = menuService.addFoodItem(name, price, category);
+        menuService.addFoodItem(name, price, category);
         System.out.println("Item added to menu.");
     }
 
@@ -110,12 +110,14 @@ public class MenuController {
 
         FoodCategory newCategory = selectCategory();
 
-        if (menuService.updateFoodItem(id, newName, newPrice, newCategory)) {
+        if (menuService.updateFoodItem(id, newName, newPrice, newCategory))
+        {
             System.out.println("Food Item updated!");
         }
     }
 
-    private void toggleAvailabilityFlow() {
+    private void toggleAvailabilityFlow()
+    {
         if (isMenuEmpty()) return;
 
         System.out.print("Enter Food ID: ");

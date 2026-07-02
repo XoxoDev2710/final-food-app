@@ -8,7 +8,6 @@ import com.dev.model.DeliveryGuy;
 import com.dev.model.Order;
 import com.dev.repository.DeliveryGuyRepository;
 import com.dev.repository.OrderRepository;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -55,6 +54,20 @@ public class OrderService {
             return false;
         }
         Order order = orderOpt.get();
+
+        OrderStatus currentStatus = order.getStatus();
+        if (currentStatus == OrderStatus.READY_FOR_DELIVERY ||
+            currentStatus == OrderStatus.OUT_FOR_DELIVERY ||
+            currentStatus == OrderStatus.DELIVERED ||
+            currentStatus == OrderStatus.CANCELLED) {
+
+            if (newStatus == OrderStatus.PLACED ||
+                newStatus == OrderStatus.ACCEPTED ||
+                newStatus == OrderStatus.PREPARING ||
+                newStatus == OrderStatus.REJECTED) {
+                throw new IllegalStateException("Cannot change status from " + currentStatus + " to " + newStatus);
+            }
+        }
 
         if (newStatus == OrderStatus.READY_FOR_DELIVERY) {
             boolean assigned = tryAssignDeliveryGuy(order);

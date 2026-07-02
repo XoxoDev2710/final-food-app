@@ -6,14 +6,12 @@ import com.dev.model.Cart;
 import com.dev.model.FoodItem;
 import com.dev.model.Order;
 import com.dev.repository.PaymentStrategy;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class CartService
 {
-
     private final Map<String, Cart> customerCarts = new HashMap<>();
     private final MenuService menuService;
     private final OrderService orderService;
@@ -25,7 +23,8 @@ public class CartService
         this.discountService = discountService;
     }
 
-    public Cart getCart(String username) {
+    public Cart getCart(String username)
+    {
         return customerCarts.computeIfAbsent(username, u -> new Cart());
     }
 
@@ -73,7 +72,8 @@ public class CartService
 
     public Order checkout(String username, PaymentStrategy paymentStrategy, String paymentMethodName) {
         Cart cart = getCart(username);
-        if (cart.isEmpty()) {
+        if (cart.isEmpty())
+        {
             throw new EmptyCartException("Your cart is empty.");
         }
 

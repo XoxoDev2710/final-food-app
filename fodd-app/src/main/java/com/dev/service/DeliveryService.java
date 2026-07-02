@@ -72,7 +72,8 @@ public class DeliveryService {
 
     public DeliveryGuy retrieveCredentials(int applicationId) {
         Optional<DeliveryGuy> guyOpt = deliveryGuyRepository.findByApplicationId(applicationId);
-        if (guyOpt.isPresent()) {
+        if (guyOpt.isPresent())
+        {
             return guyOpt.get();
         }
 

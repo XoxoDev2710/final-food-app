@@ -4,7 +4,6 @@ import com.dev.model.DiscountConfig;
 
 public class ThresholdPercentageDiscountStrategy implements DiscountStrategy
 {
-
     @Override
     public double calculateDiscount(double cartTotal, DiscountConfig config) {
         if (!config.isConfigured()) {

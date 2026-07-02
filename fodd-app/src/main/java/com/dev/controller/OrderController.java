@@ -97,5 +97,9 @@ public class OrderController {
         {
             System.out.println(e.getMessage());
         }
+        catch (IllegalStateException e)
+        {
+            System.out.println("Failed to update order: " + e.getMessage());
+        }
     }
 }
