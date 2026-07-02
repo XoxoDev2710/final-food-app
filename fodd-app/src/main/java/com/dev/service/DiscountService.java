@@ -3,8 +3,8 @@ package com.dev.service;
 import com.dev.exception.InvalidDiscountConfigException;
 import com.dev.model.DiscountConfig;
 
-public class DiscountService {
-
+public class DiscountService
+{
     private final DiscountConfig currentConfig;
     private final DiscountStrategy discountStrategy;
 

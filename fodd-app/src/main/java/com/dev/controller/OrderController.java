@@ -51,6 +51,7 @@ public class OrderController {
     private void updateOrderStatusFlow()
     {
         try {
+
             System.out.print("Enter Order ID to update: ");
             int orderId = Integer.parseInt(scanner.nextLine().trim());
 
@@ -94,7 +95,6 @@ public class OrderController {
         }
         catch (NoDeliveryAgentAvailableException e)
         {
-            // Order status was intentionally left unchanged by the service.
             System.out.println(e.getMessage());
         }
     }

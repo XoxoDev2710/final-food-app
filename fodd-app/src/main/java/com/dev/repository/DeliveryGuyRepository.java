@@ -2,37 +2,20 @@ package com.dev.repository;
 
 import com.dev.model.DeliveryGuy;
 
-import java.io.Serializable;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
-public class DeliveryGuyRepository {
+public interface DeliveryGuyRepository {
 
-    private final Map<String, DeliveryGuy> usernameMap = new HashMap<>();
-    private final Map<Integer, DeliveryGuy> applicationIdMap = new HashMap<>();
-    private int idCounter = 1;
+    DeliveryGuy save(DeliveryGuy guy);
 
-    public DeliveryGuy save(DeliveryGuy guy) {
-        usernameMap.put(guy.getUsername().toLowerCase(), guy);
-        return guy;
-    }
+    void linkApplicationId(int applicationId, DeliveryGuy guy);
 
-    public void linkApplicationId(int applicationId, DeliveryGuy guy) {
-        applicationIdMap.put(applicationId, guy);
-    }
+    Optional<DeliveryGuy> findByApplicationId(int applicationId);
 
-    public Optional<DeliveryGuy> findByApplicationId(int applicationId) {
-        return Optional.ofNullable(applicationIdMap.get(applicationId));
-    }
+    List<DeliveryGuy> findAll();
 
-    public List<DeliveryGuy> findAll() {
-        return new ArrayList<>(usernameMap.values());
-    }
+    Optional<DeliveryGuy> findByUsername(String username);
 
-    public Optional<DeliveryGuy> findByUsername(String username) {
-        return Optional.ofNullable(usernameMap.get(username.toLowerCase()));
-    }
-
-    public int nextId() {
-        return idCounter++;
-    }
+    int nextId();
 }

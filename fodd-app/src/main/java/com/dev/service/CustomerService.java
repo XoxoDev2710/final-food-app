@@ -1,16 +1,15 @@
 package com.dev.service;
 
-
 import com.dev.model.Customer;
-import com.dev.repository.InMemoryCustomerRepository;
+import com.dev.repository.CustomerRepository;
 
 import java.util.Optional;
 
 public class CustomerService {
 
-    private final InMemoryCustomerRepository repository;
+    private final CustomerRepository repository;
 
-    public CustomerService(InMemoryCustomerRepository repository) {
+    public CustomerService(CustomerRepository repository) {
         this.repository = repository;
     }
 
@@ -32,4 +31,3 @@ public class CustomerService {
                 .filter(c -> c.authenticate(username, password));
     }
 }
-

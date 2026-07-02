@@ -5,12 +5,12 @@ import java.util.regex.Pattern;
 public final class ValidationUtil {
 
 
-    private static final Pattern USERNAME_PATTERN = Pattern.compile("^[A-Za-z][A-Za-z0-9_]{3,19}$");
+    private static final Pattern USERNAME_PATTERN = Pattern.compile("^[A-Za-z]([._-](?![._-])|[A-Za-z0-9]){2,18}[A-Za-z0-9]$");
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^.{6,}$");
-    private static final Pattern NAME_PATTERN = Pattern.compile("^[A-Za-z ]{3,40}$");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^[A-Za-z][A-Za-z .'-]{2,39}$");
     private static final Pattern PHONE_PATTERN = Pattern.compile("^[6-9][0-9]{9}$");
-    private static final Pattern UPI_ID_PATTERN = Pattern.compile("^[A-Za-z0-9._]{2,}@[A-Za-z]{2,20}$");
-    private static final Pattern UPI_PIN_PATTERN = Pattern.compile("^\\d{4}$");
+    private static final Pattern UPI_ID_PATTERN = Pattern.compile("^[A-Za-z0-9._-]{2,30}@[A-Za-z]{2,20}$");
+    private static final Pattern UPI_PIN_PATTERN = Pattern.compile("^\\d{4,6}$");
     private static final Pattern PRICE_PATTERN = Pattern.compile("^\\d+(\\.\\d{1,2})?$");
 
     private ValidationUtil()

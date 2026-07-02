@@ -7,7 +7,7 @@ import com.dev.exception.OrderNotFoundException;
 import com.dev.model.DeliveryGuy;
 import com.dev.model.Order;
 import com.dev.repository.DeliveryGuyRepository;
-import com.dev.repository.InMemoryOrderRepository;
+import com.dev.repository.OrderRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -17,12 +17,11 @@ import java.util.stream.Collectors;
 
 public class OrderService {
 
-    private final InMemoryOrderRepository repository;
+    private final OrderRepository repository;
     private final DeliveryGuyRepository deliveryGuyRepository;
     private final Random random = new Random();
 
-    public OrderService(InMemoryOrderRepository repository, DeliveryGuyRepository deliveryGuyRepository)
-    {
+    public OrderService(OrderRepository repository, DeliveryGuyRepository deliveryGuyRepository) {
         this.repository = repository;
         this.deliveryGuyRepository = deliveryGuyRepository;
     }
@@ -44,12 +43,11 @@ public class OrderService {
     }
 
     public Order placeOrder(String customerUsername, Map<Integer, Integer> orderedItems,
-                            double total, double discountAmount, String paymentMethod) {
-        Order order = new Order(repository.nextId(), customerUsername, orderedItems, total, discountAmount,
+                            double total, double discount, String paymentMethod) {
+        Order order = new Order(repository.nextId(), customerUsername, orderedItems, total, discount,
                 OrderStatus.PLACED, paymentMethod);
         return repository.save(order);
     }
-
 
     public boolean updateOrderStatus(int orderId, OrderStatus newStatus) {
         Optional<Order> orderOpt = repository.findById(orderId);
@@ -61,7 +59,8 @@ public class OrderService {
         if (newStatus == OrderStatus.READY_FOR_DELIVERY) {
             boolean assigned = tryAssignDeliveryGuy(order);
             if (!assigned) {
-                throw new NoDeliveryAgentAvailableException("No delivery agents are available right now.");
+                throw new NoDeliveryAgentAvailableException(
+                        "No delivery agents are available right now.");
             }
         }
 
@@ -70,9 +69,7 @@ public class OrderService {
         return true;
     }
 
-
-    private boolean tryAssignDeliveryGuy(Order order)
-    {
+    private boolean tryAssignDeliveryGuy(Order order) {
         List<DeliveryGuy> available = deliveryGuyRepository.findAll().stream()
                 .filter(g -> g.getStatus() == DeliveryStatus.AVAILABLE)
                 .collect(Collectors.toList());
@@ -89,7 +86,6 @@ public class OrderService {
         System.out.println("Order #" + order.getOrderId() + " auto-assigned to agent " + chosen.getUsername());
         return true;
     }
-
 
     public List<Order> getOrdersForAgent(String username, OrderStatus status)
     {
@@ -113,8 +109,7 @@ public class OrderService {
     {
         boolean ownsOrder = getOrdersForAgent(deliveryGuy.getUsername(), OrderStatus.OUT_FOR_DELIVERY).stream()
                 .anyMatch(o -> o.getOrderId() == orderId);
-        if (!ownsOrder)
-        {
+        if (!ownsOrder) {
             throw new OrderNotFoundException("This order is not assigned to you or is not out for delivery.");
         }
 

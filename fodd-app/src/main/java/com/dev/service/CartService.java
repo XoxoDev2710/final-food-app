@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class CartService {
+public class CartService
+{
 
     private final Map<String, Cart> customerCarts = new HashMap<>();
     private final MenuService menuService;
@@ -60,10 +61,10 @@ public class CartService {
         return discountService.calculateDiscount(calculateCartTotal(username));
     }
 
-    public double calculateGrandTotal(String username) {
-        double subtotal = calculateCartTotal(username);
-        return subtotal - discountService.calculateDiscount(subtotal);
-    }
+//    public double calculateGrandTotal(String username) {
+//        double subtotal = calculateCartTotal(username);
+//        return subtotal - discountService.calculateDiscount(subtotal);
+//    }
 
     public void pruneUnavailableItems(String username) {
         Cart cart = getCart(username);

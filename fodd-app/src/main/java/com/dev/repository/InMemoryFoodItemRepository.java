@@ -1,15 +1,12 @@
 package com.dev.repository;
 
 import com.dev.model.FoodItem;
-
-import java.io.Serializable;
 import java.util.*;
 
 public class InMemoryFoodItemRepository implements FoodItemRepository
 {
-
     private final Map<Integer, FoodItem> database = new HashMap<>();
-    private int idCounter = 100;
+    private int idCounter = 101;
 
     @Override
     public FoodItem save(FoodItem foodItem) {

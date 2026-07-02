@@ -1,0 +1,83 @@
+erDiagram
+    CUSTOMER {
+        int id PK
+        string name
+        string username UK
+        string password
+        string address
+    }
+    DELIVERY_GUY {
+        int id PK
+        string name
+        string username UK
+        string password
+        string phone
+        string status
+    }
+    DELIVERY_APPLICATION {
+        int applicationId PK
+        string name
+        string phone
+    }
+    FOOD_ITEM {
+        int foodId PK
+        string foodName
+        double price
+        string category
+        boolean available
+    }
+    ORDER_ENTITY {
+        int orderId PK
+        string customerUsername FK
+        double totalAmount
+        double discountAmount
+        string status
+        string paymentMethod
+        string assignedDeliveryGuyUsername FK
+    }
+    ORDER_ITEM {
+        int orderId PK, FK
+        int foodId PK, FK
+        int quantity
+    }
+    CART_ITEM {
+        string customerUsername PK, FK
+        int foodId PK, FK
+        int quantity
+    }
+    DISCOUNT_CONFIG {
+        double thresholdAmount
+        double discountPercentage
+    }
+    DELIVERY_STATUS_ENUM {
+        string AVAILABLE
+        string BUSY
+    }
+    FOOD_CATEGORY_ENUM {
+        string FAST_FOOD
+        string SOUTH_INDIAN
+        string PUNJABI
+        string CHINESE
+        string DESSERT
+        string DRINK
+    }
+    ORDER_STATUS_ENUM {
+        string PLACED
+        string ACCEPTED
+        string REJECTED
+        string PREPARING
+        string READY_FOR_DELIVERY
+        string OUT_FOR_DELIVERY
+        string DELIVERED
+        string CANCELLED
+    }
+
+    CUSTOMER ||--o| CART_ITEM : has
+    CUSTOMER ||--o{ ORDER_ENTITY : places
+    ORDER_ENTITY ||--|{ ORDER_ITEM : contains
+    FOOD_ITEM ||--o{ ORDER_ITEM : ordered_in
+    FOOD_ITEM ||--o{ CART_ITEM : carted_in
+    ORDER_ENTITY |o--o| DELIVERY_GUY : assigned_to
+    DELIVERY_GUY ||--|| DELIVERY_STATUS_ENUM : status_value
+    FOOD_ITEM ||--|| FOOD_CATEGORY_ENUM : category_value
+    ORDER_ENTITY ||--|| ORDER_STATUS_ENUM : status_value

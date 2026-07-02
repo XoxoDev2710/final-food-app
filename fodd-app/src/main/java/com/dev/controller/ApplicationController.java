@@ -1,24 +1,27 @@
 package com.dev.controller;
 
 import com.dev.exception.InvalidCredentialsException;
-import com.dev.factory.ConsolePaymentStrategyFactory;
-import com.dev.factory.PaymentStrategyFactory;
 import com.dev.model.DeliveryGuy;
 import com.dev.repository.*;
 import com.dev.security.SecurityConfig;
 import com.dev.service.CartService;
 import com.dev.service.CustomerService;
 import com.dev.service.DeliveryService;
-import com.dev.service.DiscountService;
 import com.dev.service.MenuService;
 import com.dev.service.OrderService;
+import com.dev.service.DiscountService;
+import com.dev.service.DiscountStrategy;
 import com.dev.service.ThresholdPercentageDiscountStrategy;
+import com.dev.factory.PaymentStrategyFactory;
+import com.dev.factory.ConsolePaymentStrategyFactory;
 import com.dev.view.FoodDeliverySystemView;
+
 import java.util.Optional;
 import java.util.Scanner;
 
 public class ApplicationController
 {
+
     public static void startApplication() {
         Scanner scanner = new Scanner(System.in);
 
@@ -26,33 +29,36 @@ public class ApplicationController
         MenuService menuService = new MenuService(foodItemRepository);
         MenuController menuController = new MenuController(menuService, scanner);
 
-        DeliveryApplicationRepository appRepo = new DeliveryApplicationRepository();
-        DeliveryGuyRepository deliveryGuyRepo = new DeliveryGuyRepository();
+        DeliveryApplicationRepository appRepo = new InMemoryDeliveryApplicationRepository();
+        DeliveryGuyRepository deliveryGuyRepo = new InMemoryDeliveryGuyRepository();
         DeliveryService deliveryService = new DeliveryService(appRepo, deliveryGuyRepo);
         DeliveryApplicationController deliveryApplicationController = new DeliveryApplicationController(deliveryService, scanner);
 
-        InMemoryOrderRepository orderRepository = new InMemoryOrderRepository();
+        OrderRepository orderRepository = new InMemoryOrderRepository();
         OrderService orderService = new OrderService(orderRepository, deliveryGuyRepo);
         OrderController orderController = new OrderController(orderService, scanner);
 
-        DiscountService discountService = new DiscountService(new ThresholdPercentageDiscountStrategy());
+        CustomerRepository customerRepository = new InMemoryCustomerRepository();
+        CustomerService customerService = new CustomerService(customerRepository);
+
+        DiscountStrategy discountStrategy = new ThresholdPercentageDiscountStrategy();
+        DiscountService discountService = new DiscountService(discountStrategy);
         DiscountController discountController = new DiscountController(discountService, scanner);
 
-        InMemoryCustomerRepository customerRepository = new InMemoryCustomerRepository();
-        CustomerService customerService = new CustomerService(customerRepository);
         CartService cartService = new CartService(menuService, orderService, discountService);
+
         PaymentStrategyFactory paymentStrategyFactory = new ConsolePaymentStrategyFactory();
         CustomerDashboardController customerDashboardController =
                 new CustomerDashboardController(menuService, cartService, orderService, paymentStrategyFactory, scanner);
         CustomerAuthController customerAuthController = new CustomerAuthController(customerService, customerDashboardController, scanner);
 
-        AdminController adminController = new AdminController(menuController, orderController, deliveryService,
-                discountController, scanner);
+        AdminController adminController = new AdminController(menuController, orderController, deliveryService, discountController, scanner);
 
         while (true)
         {
             FoodDeliverySystemView.systemView();
             try {
+
                 System.out.print("Select an option: ");
                 int choice = Integer.parseInt(scanner.nextLine().trim());
 
@@ -71,6 +77,7 @@ public class ApplicationController
                 System.out.println("Please enter a valid number.");
             }
         }
+
     }
 
     private static void handleAdminLogin(AdminController adminController, Scanner scanner)

@@ -2,7 +2,8 @@ package com.dev.factory;
 
 import com.dev.repository.PaymentStrategy;
 
-public class PaymentOption {
+public class PaymentOption
+{
     private final PaymentStrategy strategy;
     private final String methodName;
 

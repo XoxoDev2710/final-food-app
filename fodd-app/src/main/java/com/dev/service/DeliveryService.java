@@ -1,6 +1,5 @@
 package com.dev.service;
 
-import com.dev.enumm.DeliveryStatus;
 import com.dev.exception.ApplicationNotFoundException;
 import com.dev.exception.DuplicateApplicationException;
 import com.dev.exception.UsernameTakenException;

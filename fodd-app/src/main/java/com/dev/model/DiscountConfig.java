@@ -1,10 +1,7 @@
 package com.dev.model;
 
-import java.io.Serializable;
-
 public class DiscountConfig
 {
-
     private double thresholdAmount;
     private double discountPercentage;
 
