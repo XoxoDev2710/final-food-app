@@ -5,6 +5,7 @@ import com.dev.enumm.OrderStatus;
 import com.dev.exception.NoDeliveryAgentAvailableException;
 import com.dev.model.Order;
 import com.dev.service.OrderService;
+import com.dev.view.OrderStatusView;
 import com.dev.view.OrderView;
 
 import java.util.List;
@@ -61,13 +62,9 @@ public class OrderController {
                 return;
             }
 
-            System.out.println("Select New Status:");
-            System.out.println("1. ACCEPTED");
-            System.out.println("2. REJECTED");
-            System.out.println("3. PREPARING");
-            System.out.println("4. READY_FOR_DELIVERY (auto-assigns a free agent)");
-            System.out.print("Choice: ");
+            OrderStatusView.orderStatusView();
 
+            System.out.print("Choice: ");
             int statusChoice = Integer.parseInt(scanner.nextLine().trim());
             OrderStatus newStatus;
             switch (statusChoice) {

@@ -75,43 +75,45 @@ public class CustomerDashboardController
             return;
         }
 
-        System.out.println("\n--- TODAY'S MENU ---");
-        availableItems.forEach(System.out::println);
+        while (true) {
+            System.out.println("\n--- TODAY'S MENU ---");
+            availableItems.forEach(System.out::println);
 
-        System.out.print("\nEnter Food ID to add to cart (or 0 to go back): ");
+            System.out.print("\nEnter Food ID to add to cart (or 0 to go back): ");
 
-        try
-        {
-            int foodId = Integer.parseInt(scanner.nextLine().trim());
-            if (foodId == 0) return;
-
-            System.out.print("Enter Quantity (max " + Cart.MAX_QTY_PER_ITEM + " per item): ");
-            int qty = Integer.parseInt(scanner.nextLine().trim());
-
-            if (qty <= 0)
+            try
             {
-                System.out.println("Quantity must be greater than 0.");
-                return;
-            }
+                int foodId = Integer.parseInt(scanner.nextLine().trim());
+                if (foodId == 0) return;
 
-            boolean added = cartService.addItemToCart(customer.getUsername(), foodId, qty);
-            if (added)
-            {
-                String itemName = menuService.getItemById(foodId).map(FoodItem::getFoodName).orElse("Item");
-                System.out.println(qty + " x " + itemName + " added to cart!");
+                System.out.print("Enter Quantity (max " + Cart.MAX_QTY_PER_ITEM + " per item): ");
+                int qty = Integer.parseInt(scanner.nextLine().trim());
+
+                if (qty <= 0)
+                {
+                    System.out.println("Quantity must be greater than 0.");
+                    continue;
+                }
+
+                boolean added = cartService.addItemToCart(customer.getUsername(), foodId, qty);
+                if (added)
+                {
+                    String itemName = menuService.getItemById(foodId).map(FoodItem::getFoodName).orElse("Item");
+                    System.out.println(qty + " x " + itemName + " added to cart!");
+                }
+                else
+                {
+                    System.out.println("Cannot add. Max allowed quantity per item is " + Cart.MAX_QTY_PER_ITEM + ".");
+                }
             }
-            else
+            catch (NumberFormatException e)
             {
-                System.out.println("Cannot add. Max allowed quantity per item is " + Cart.MAX_QTY_PER_ITEM + ".");
+                System.out.println("Please enter a valid number.");
             }
-        }
-        catch (NumberFormatException e)
-        {
-            System.out.println("Please enter a valid number.");
-        }
-        catch (ItemNotFoundException e)
-        {
-            System.out.println(e.getMessage());
+            catch (ItemNotFoundException e)
+            {
+                System.out.println(e.getMessage());
+            }
         }
     }
 

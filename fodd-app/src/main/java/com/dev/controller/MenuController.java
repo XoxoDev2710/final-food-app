@@ -124,6 +124,7 @@ public class MenuController {
         int id = Integer.parseInt(scanner.nextLine().trim());
 
         Optional<FoodItem> itemOpt = menuService.getItemById(id);
+
         if (itemOpt.isEmpty()) {
             throw new ItemNotFoundException("Food ID not found.");
         }

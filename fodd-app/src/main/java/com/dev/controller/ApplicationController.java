@@ -14,6 +14,8 @@ import com.dev.service.DiscountStrategy;
 import com.dev.service.ThresholdPercentageDiscountStrategy;
 import com.dev.factory.PaymentStrategyFactory;
 import com.dev.factory.ConsolePaymentStrategyFactory;
+import com.dev.view.DeliveryAgentDashboard;
+import com.dev.view.DeliveryAgentPortalView;
 import com.dev.view.FoodDeliverySystemView;
 
 import java.util.Optional;
@@ -53,6 +55,8 @@ public class ApplicationController
         CustomerAuthController customerAuthController = new CustomerAuthController(customerService, customerDashboardController, scanner);
 
         AdminController adminController = new AdminController(menuController, orderController, deliveryService, discountController, scanner);
+
+        com.dev.seeder.DataSeeder.seedData(foodItemRepository, customerRepository, deliveryGuyRepo);
 
         while (true)
         {
@@ -110,14 +114,9 @@ public class ApplicationController
                                              OrderService orderService,
                                              Scanner scanner) {
         boolean inDeliveryMenu = true;
-        while (inDeliveryMenu) {
-            System.out.println("\n--- DELIVERY AGENT PORTAL ---");
-            System.out.println("1. Login");
-            System.out.println("2. Apply for Delivery Job");
-            System.out.println("3. Retrieve Account Details");
-            System.out.println("4. Back");
-            System.out.print("Select an option: ");
-
+        while (inDeliveryMenu)
+        {
+            DeliveryAgentPortalView.deliveryAgentPortalView();
             try {
                 int delChoice = Integer.parseInt(scanner.nextLine().trim());
                 switch (delChoice) {

@@ -5,6 +5,7 @@ import com.dev.exception.OrderNotFoundException;
 import com.dev.model.DeliveryGuy;
 import com.dev.model.Order;
 import com.dev.service.OrderService;
+import com.dev.view.DeliveryAgentDashboard;
 
 import java.util.List;
 import java.util.Scanner;
@@ -25,13 +26,7 @@ public class DeliveryController {
     {
         while (true)
         {
-            System.out.println("\n=== DELIVERY AGENT DASHBOARD: " + deliveryGuy.getName() + " ===");
-            System.out.println("1. View Ready Orders");
-            System.out.println("2. Pick Up Order (Change to OUT_FOR_DELIVERY)");
-            System.out.println("3. Mark Delivered (Change to DELIVERED)");
-            System.out.println("4. Logout");
-            System.out.print("Select an option: ");
-
+            DeliveryAgentDashboard.agentDashboard(deliveryGuy);
             try
             {
                 int choice = Integer.parseInt(scanner.nextLine().trim());

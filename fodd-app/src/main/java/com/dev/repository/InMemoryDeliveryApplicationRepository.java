@@ -10,7 +10,6 @@ import java.util.Set;
 
 public class InMemoryDeliveryApplicationRepository implements DeliveryApplicationRepository
 {
-
     private static final int ID_LOWER_BOUND = 100000;
     private static final int ID_UPPER_BOUND = 999999;
 

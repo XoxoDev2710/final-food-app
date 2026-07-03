@@ -57,7 +57,7 @@ public class CustomerAuthController {
 
         if (authCustomer.isPresent())
         {
-            System.out.println("\nLogin Successful!");
+            System.out.println("Login Successful!");
             dashboardController.showDashboard(authCustomer.get());
         }
         else

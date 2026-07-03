@@ -8,7 +8,7 @@ public class OrderStatusView
         System.out.println("1. ACCEPTED");
         System.out.println("2. REJECTED");
         System.out.println("3. PREPARING");
-        System.out.println("4. READY_FOR_DELIVERY (auto-assigns a free agent)");
+        System.out.println("4. READY_FOR_DELIVERY");
     }
 }
 
